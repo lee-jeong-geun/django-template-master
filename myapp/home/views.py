@@ -6,4 +6,4 @@ def index(request):
     return render(request, 'index.html', {})
 
 def test(request, temp):
-    return HttpResponse(request, "넘어온 데이터 : "+ temp)
+    return HttpResponse("test", temp)
