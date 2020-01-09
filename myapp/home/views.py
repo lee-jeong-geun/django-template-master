@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from myapp.item.models import Item
+#from myapp.item.models import Item
 
 
 # Create your views here.
@@ -9,5 +9,5 @@ def index(request):
 
 
 def test(request):
-    item_list = Item.objects.all()
+    #item_list = Item.objects.all()
     return render(request, 'test.html', {})
