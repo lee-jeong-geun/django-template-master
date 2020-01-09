@@ -9,4 +9,5 @@ def index(request):
 
 
 def test(request):
+    item_list = Item.objects.all()
     return render(request, 'test.html', {})
