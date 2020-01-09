@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Item',
             fields=[
-                ('id', models.IntegerField(primary_key=True)),
+                ('pid', models.AutoField(primary_key=True)),
+                ('id', models.IntegerField()),
                 ('imageId', models.CharField(max_length=40)),
                 ('name', models.CharField(max_length=40)),
                 ('price', models.IntegerField()),
