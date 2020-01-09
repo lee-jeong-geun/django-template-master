@@ -10,6 +10,9 @@ def index(request):
 
 
 def test(request):
-    item = Item.objects.all()
-    item_list = serializers.serialize('json', item)
-    return HttpResponse(item_list, content_type="text/json-comment-filtered")
+    item_list = Item.objects.all()
+    str = ''
+    for i in item_list:
+        str += "<p>id : {}<br>imgid : {}<br>name : {}<br>price : {}<br>monthlySales : " \
+               "{}<br></p>".format(i.id, i.imageId, i.name, i.price, i.monthlySales)
+    return HttpResponse(str)
