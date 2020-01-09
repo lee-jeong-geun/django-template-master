@@ -14,9 +14,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Item',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=32)),
-                ('age', models.IntegerField(max_length=254)),
+                ('id', models.IntegerField(primary_key=True)),
+                ('imageId', models.CharField(max_length=40)),
+                ('name', models.CharField(max_length=40)),
+                ('price', models.IntegerField()),
+                ('gender', models.CharField(max_length=6)),
+                ('category', models.CharField(max_length=10)),
+                ('monthlySales', models.IntegerField()),
             ],
         ),
     ]

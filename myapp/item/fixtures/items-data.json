@@ -2,14 +2,35 @@
     {
         "model": "item.item",
         "fields": {
-            "name": "item1",
-            "age": 10
+            "id": 1,
+            "imageId": "a18de8cd-c730-4f36-b16f-665cca908c11",
+            "name": "리더스 링클 콜라겐 마스크",
+            "price": 520,
+            "gender": "female",
+            "category": "suncare",
+            "monthlySales": 5196
         }
     }, {
         "model": "item.item",
         "fields": {
-            "name": "item2",
-            "age": 11
+            "id": 2,
+            "imageId": "1d532a02-1d50-4760-8e61-32b88b2a2270",
+            "name": "이켈 녹차 울트라 하이드레이팅 에센스 마스크",
+            "price": 4640,
+            "gender": "all",
+            "category": "basemakeup",
+            "monthlySales": 2405
+        }
+    }, {
+        "model": "item.item",
+        "fields": {
+            "id": 3,
+            "imageId": "2119924f-75ce-48dc-8a2d-ee71545d6700",
+            "name": "오릭스 포 맨 컨트롤 스킨 410ml",
+            "price": 1440,
+            "gender": "male",
+            "category": "suncare",
+            "monthlySales": 1994
         }
     }
 ]
