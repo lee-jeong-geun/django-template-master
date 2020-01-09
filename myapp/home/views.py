@@ -12,5 +12,5 @@ def test(request):
     item_list = Item.objects.all()
     str = ''
     for i in item_list:
-        str += "<p>{} name {}age<br></p>".format(i.name, i.quantity)
+        str += "<p>{} name {}age<br></p>".format(i.name, i.age)
     return HttpResponse(str)
