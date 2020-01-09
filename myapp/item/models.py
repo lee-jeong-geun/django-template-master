@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Item(models.Model):
-    id = models.IntegerField()
+    Id = models.IntegerField()
     imageId = models.CharField(max_length=40)
     name = models.CharField(max_length=40)
     price = models.IntegerField()
