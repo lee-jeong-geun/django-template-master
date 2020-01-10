@@ -11,6 +11,6 @@ def index(request):
 
 
 def test(request):
-    item = Item.objects.get(Id=1)
+    item = Item.objects.get(pid=1)
     item_list = serializers.serialize('json', item)
     return HttpResponse(item_list)
