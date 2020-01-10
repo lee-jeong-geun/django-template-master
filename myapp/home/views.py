@@ -11,6 +11,6 @@ def index(request):
 
 
 def test(request):
-    item = Item.objects.all().order_by('Id')
+    item = Item.objects.get(Id=1)
     item_list = serializers.serialize('json', item)
     return HttpResponse(item_list)
