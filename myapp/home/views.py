@@ -11,6 +11,6 @@ def index(request):
 
 
 def test(request):
-    item = Item.objects.filter(published_at__isnull=False).order_by('-published_at')
+    item = Item.objects.filter(Id=False).order_by('Id')
     item_list = serializers.serialize('json', item)
     return HttpResponse(item_list)
