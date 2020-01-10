@@ -1,6 +1,7 @@
 from django.contrib.postgres import serializers
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 from myapp.item.models import Item
 
 
@@ -10,8 +11,6 @@ def index(request):
 
 
 def test(request):
-    item_list = Item.objects.all()
-    str = ''
-    for i in item_list:
-        str += "<p>id : {}<br>imgid : {}<br>name : {}<br>price : {}<br>monthlySales : {}<br></p>".format(i.Id, i.imageId, i.name, i.price, i.monthlySales)
-    return HttpResponse(str)
+    item = Item.objects.filter(published_at__isnull=False).order_by('-published_at')
+    item_list = serializers.serialize('json', item)
+    return HttpResponse(item_list)
