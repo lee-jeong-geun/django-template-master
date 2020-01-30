@@ -11,6 +11,6 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'NAME': 'my_database',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': '1234',
     }
 }
