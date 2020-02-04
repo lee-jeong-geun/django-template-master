@@ -52,25 +52,17 @@ class ProductViewList(APIView):
 
         for product in products_list:
             delete_product = False
-            ingredient_list = Product.objects.get(id=product[0]).ingredients.all()
+            ingredient_list = set(map(lambda it: it.name, Product.objects.get(id=product[0]).ingredients.all()))
             # ingredient_include check
             if ingredient_include_list is not None:
                 for ingredient_include in ingredient_include_list:
-                    exist = False
-                    for ingredient_list_val in ingredient_list:
-                        if ingredient_include == str(ingredient_list_val):
-                            exist = True
-                    if not exist:
+                    if ingredient_include not in ingredient_list:
                         delete_product = True
 
             # ingredient_exclude check
             if ingredient_exclude_list is not None:
                 for ingredient_exclude in ingredient_exclude_list:
-                    exist = False
-                    for ingredient_list_val in ingredient_list:
-                        if ingredient_exclude == str(ingredient_list_val):
-                            exist = True
-                    if exist:
+                    if ingredient_exclude in ingredient_list:
                         delete_product = True
             if not delete_product:
                 sort_products_list.append(Product.objects.get(id=product[0]))
