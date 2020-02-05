@@ -34,12 +34,18 @@ class ProductViewList(APIView):
         if ingredient_exclude_list is not None:
             ingredient_exclude_list = ingredient_exclude_list.split(',')
 
-        if category is None:
-            products = Product.objects.all()
-        else:
-            products = Product.objects.filter(category=category)
+        products = Product.objects.all()
+        if category is not None:
+            products = products.filter(category=category)
+        if ingredient_include_list is not None:
+            for ingredient_include in ingredient_include_list:
+                products = products.filter(ingredients=ingredient_include)
+        if ingredient_exclude_list is not None:
+            for ingredient_exclude in ingredient_exclude_list:
+                products = products.exclude(ingredients=ingredient_exclude)
+
         products_list = []
-        sort_products_list = []
+        querySet_products_list = []
 
         # skin_type get score
         for product in products:
@@ -51,22 +57,8 @@ class ProductViewList(APIView):
         products_list.sort(key=lambda t: (-t[1], t[2]))
 
         for product in products_list:
-            delete_product = False
-            ingredient_list = set(map(lambda it: it.name, Product.objects.get(id=product[0]).ingredients.all()))
-            # ingredient_include check
-            if ingredient_include_list is not None:
-                for ingredient_include in ingredient_include_list:
-                    if ingredient_include not in ingredient_list:
-                        delete_product = True
+            querySet_products_list.append(Product.objects.get(id=product[0]))
 
-            # ingredient_exclude check
-            if ingredient_exclude_list is not None:
-                for ingredient_exclude in ingredient_exclude_list:
-                    if ingredient_exclude in ingredient_list:
-                        delete_product = True
-            if not delete_product:
-                sort_products_list.append(Product.objects.get(id=product[0]))
-
-        results = self.pagination_class.paginate_queryset(sort_products_list, request)
+        results = self.pagination_class.paginate_queryset(querySet_products_list, request)
         serializer = ProductListSerializer(results, many=True)
         return Response(serializer.data)
