@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
@@ -8,14 +9,18 @@ from myapp.item.serializers import IngredientSerializer, ProductListSerializer, 
 # Create your views here.
 
 
-"""class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductListSerializer
+def skin_type_score_sort(products, skin_type):
+    products_list = []
 
-    @action()
-    def get_list(self, request, *args, **kwargs):
-        return Response()
-"""
+    # skin_type get score
+    for product in products:
+        score = 0
+        for ingredient in product.ingredients.all():
+            score += ingredient.calculate_score(skin_type=skin_type)
+        products_list.append((product.id, score, product.price))
+    # sort 1) -score 2) price
+    products_list.sort(key=lambda t: (-t[1], t[2]))
+    return products_list
 
 
 class ProductViewList(APIView):
@@ -44,17 +49,8 @@ class ProductViewList(APIView):
             for ingredient_exclude in ingredient_exclude_list:
                 products = products.exclude(ingredients=ingredient_exclude)
 
-        products_list = []
         querySet_products_list = []
-
-        # skin_type get score
-        for product in products:
-            score = 0
-            for ingredient in product.ingredients.all():
-                score += ingredient.calculate_score(skin_type=request.query_params['skin_type'])
-            products_list.append((product.id, score, product.price))
-        # sort 1) -score 2) price
-        products_list.sort(key=lambda t: (-t[1], t[2]))
+        products_list = skin_type_score_sort(products=products, skin_type=request.query_params['skin_type'])
 
         for product in products_list:
             querySet_products_list.append(Product.objects.get(id=product[0]))
@@ -62,3 +58,4 @@ class ProductViewList(APIView):
         results = self.pagination_class.paginate_queryset(querySet_products_list, request)
         serializer = ProductListSerializer(results, many=True)
         return Response(serializer.data)
+
